@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        @SuppressLint("DefaultLocale")
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -153,12 +154,12 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONObject jsonObject = new JSONObject(s);
                 String weatherInfo = jsonObject.getString("weather");
-
+                JSONObject temp = jsonObject.getJSONObject("main");
                 Log.i("Weather content", weatherInfo);
 
                 JSONArray arr = new JSONArray(weatherInfo);
                 String message = "";
-
+                message = String.format("%.2f", temp.getDouble("temp") - 273.15) + "°C\n";
                 for (int i=0; i < arr.length(); i++) {
                     JSONObject jsonPart = arr.getJSONObject(i);
                     String main = jsonPart.getString("main");
