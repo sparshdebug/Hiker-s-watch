@@ -58,20 +58,8 @@ public class MainActivity extends AppCompatActivity {
             if (listAddresses != null && listAddresses.size() > 0 ) {
                 Log.i("PlaceInfo", listAddresses.get(0).toString());
                 address = "Address: \n";
-                if (listAddresses.get(0).getSubThoroughfare() != null) {
-                    address += listAddresses.get(0).getSubThoroughfare() + " ";
-                }
-                if (listAddresses.get(0).getThoroughfare() != null) {
-                    address += listAddresses.get(0).getThoroughfare() + "\n";
-                }
-                if (listAddresses.get(0).getLocality() != null) {
-                    address += listAddresses.get(0).getLocality() + "\n";
-                }
-                if (listAddresses.get(0).getPostalCode() != null) {
-                    address += listAddresses.get(0).getPostalCode() + "\n";
-                }
-                if (listAddresses.get(0).getCountryName() != null) {
-                    address += listAddresses.get(0).getCountryName() + "\n";
+                if(listAddresses.get(0).getAddressLine(0) != null && listAddresses.get(0).getAddressLine(0).isEmpty() == false){
+                    address += listAddresses.get(0).getAddressLine(0);
                 }
             }
                 addressTextView.setText(address);
