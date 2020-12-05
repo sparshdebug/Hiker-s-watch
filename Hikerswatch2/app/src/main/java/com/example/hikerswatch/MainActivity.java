@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     LocationListener locationListener;
-    TextView latlngTextView = findViewById(R.id.latlngTextView);
-    TextView addressTextView = (TextView) findViewById(R.id.addressTextView);
-    TextView weatherTextView = (TextView) findViewById(R.id.weatherTextView);
+    TextView latlngTextView;
+    TextView addressTextView;
+    TextView weatherTextView;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -78,14 +78,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
                 addressTextView.setText(address);
+
+            DownloadTask task = new DownloadTask();
+            Log.i("locality: ", listAddresses.get(0).getLocality());
+            task.execute("https://api.openweathermap.org/data/2.5/weather?q=" + listAddresses.get(0).getLocality() + "&appid=937ae51dbd201e18f7f0d9ab4eddaf43");
+
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"e Could not find weather :(",Toast.LENGTH_SHORT).show();
         }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        latlngTextView = findViewById(R.id.latlngTextView);
+        addressTextView = (TextView) findViewById(R.id.addressTextView);
+        weatherTextView = (TextView) findViewById(R.id.weatherTextView);
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -104,21 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     updateLocationInfo(location);
                 }
             }
-    }
 
-    public void getWeather(View view) {
-        try {
-            DownloadTask task = new DownloadTask();
-            String encodedCityName = URLEncoder.encode(editText.getText().toString(), "UTF-8");
-
-            task.execute("http://openweathermap.org/data/2.5/weather?q=" + encodedCityName + "&appid=b1b15e88fa797225412429c1c50c122a1");
-
-            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            mgr.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
-        }
     }
 
     public class DownloadTask extends AsyncTask<String,Void,String> {
@@ -144,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 return result;
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Could not find weather :(", Toast.LENGTH_SHORT).show();
                 return null;
             }
         }
@@ -154,9 +150,12 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             try {
+
                 JSONObject jsonObject = new JSONObject(s);
                 String weatherInfo = jsonObject.getString("weather");
+
                 Log.i("Weather content", weatherInfo);
+
                 JSONArray arr = new JSONArray(weatherInfo);
                 String message = "";
 
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!message.equals("")) {
                     weatherTextView.setText(message);
                 } else {
-                    Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"message Could not find weather :(",Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
