@@ -24,31 +24,31 @@
 
     <TextView
         android:id="@+id/latlngTextView"
-        android:layout_width="337dp"
-        android:layout_height="152dp"
+        android:layout_width="380dp"
+        android:layout_height="174dp"
         android:text="latlngaccuracy"
         android:textColor="#C69D51"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.283"
+        app:layout_constraintHorizontal_bias="0.677"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.274" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <TextView
         android:id="@+id/addressTextView"
-        android:layout_width="337dp"
-        android:layout_height="250dp"
+        android:layout_width="380dp"
+        android:layout_height="234dp"
         android:text="address"
         android:textColor="#C69D51"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.283"
+        app:layout_constraintHorizontal_bias="0.677"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.652" />
+        app:layout_constraintVertical_bias="0.271" />
 
     <TextView
         android:id="@+id/weatherTextView"
@@ -59,8 +59,8 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintHorizontal_bias="0.117"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.845" />
+        app:layout_constraintVertical_bias="0.62" />
 </androidx.constraintlayout.widget.ConstraintLayout>
