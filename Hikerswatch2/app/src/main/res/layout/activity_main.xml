@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wolfgang"
+    android:background="@drawable/zmn"
     tools:context=".MainActivity">
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_height="334dp"
         android:fontFamily="monospace"
         android:text="loading weather..."
-        android:textColor="#AFAEAB"
+        android:textColor="#5E5D5A"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
