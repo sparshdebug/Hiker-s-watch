@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     public void updateLocationInfo(Location location) {
         Log.i("LocationInfo", location.toString());
 
-
         latlngTextView.setText("Latitude: " + location.getLatitude() + "\n" + "Longitude: " + location.getLongitude() + "\n" + "Accuracy: " + location.getAccuracy());
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"e Could not find weather :(",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
         }
     }
     @Override
@@ -159,20 +158,26 @@ public class MainActivity extends AppCompatActivity {
 
                 JSONArray arr = new JSONArray(weatherInfo);
                 String message = "";
-                message = String.format("%.2f", temp.getDouble("temp") - 273.15) + "°C\n";
+                message = "Weather: \nTemp: " + String.format("%.2f", temp.getDouble("temp") - 273.15) + "°C\n";
+                message += "feels like:  " + String.format("%.2f", temp.getDouble("feels_like") - 273.15) + "°C\n";
+                message += "Max temp:  " + String.format("%.2f", temp.getDouble("temp_min") - 273.15) + "°C\n";
+                message += "Min temp:  " + String.format("%.2f", temp.getDouble("temp_max") - 273.15) + "°C\n";
+                message += "Pressure: " + temp.getDouble("pressure") + " Pa\n";
+                message += "Humidity: " +  String.format("%.2f", temp.getDouble("humidity") - 273.15) + "°C\n";
+
                 for (int i=0; i < arr.length(); i++) {
                     JSONObject jsonPart = arr.getJSONObject(i);
                     String main = jsonPart.getString("main");
                     String description = jsonPart.getString("description");
                     if (!main.equals("") && !description.equals("")) {
-                        message += main + ": " + description + "\r\n";
+                        message +=  "Main weather: " + main + "\n" + "Description: " + description + "\r\n";
                     }
                 }
 
                 if (!message.equals("")) {
                     weatherTextView.setText(message);
                 } else {
-                    Toast.makeText(getApplicationContext(),"message Could not find weather :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();

@@ -4,63 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/omid"
+    android:background="@drawable/wolfgang"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="284dp"
         android:layout_height="99dp"
+        android:fontFamily="cursive"
         android:text="Hiker's Watch"
         android:textAlignment="textStart"
-        android:textColor="#B57824"
-        android:textSize="36sp"
+        android:textAllCaps="false"
+        android:textColor="#979086"
+        android:textSize="50sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.057" />
+        app:layout_constraintVertical_bias="0.025" />
 
     <TextView
         android:id="@+id/latlngTextView"
         android:layout_width="380dp"
         android:layout_height="174dp"
-        android:text="latlngaccuracy"
-        android:textColor="#C69D51"
-        android:textSize="24sp"
+        android:fontFamily="monospace"
+        android:text="loading details.."
+        android:textColor="#100F0E"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.677"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.342" />
 
     <TextView
         android:id="@+id/addressTextView"
         android:layout_width="380dp"
         android:layout_height="234dp"
-        android:text="address"
-        android:textColor="#C69D51"
-        android:textSize="24sp"
+        android:fontFamily="monospace"
+        android:text="loading address..."
+        android:textAlignment="textStart"
+        android:textColor="#100F0E"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.677"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.271" />
+        app:layout_constraintVertical_bias="0.185" />
 
     <TextView
         android:id="@+id/weatherTextView"
-        android:layout_width="232dp"
-        android:layout_height="64dp"
-        android:text="weather"
-        android:textColor="#C69D51"
-        android:textSize="24sp"
+        android:layout_width="365dp"
+        android:layout_height="334dp"
+        android:fontFamily="monospace"
+        android:text="loading weather..."
+        android:textColor="#AFAEAB"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.62" />
+        app:layout_constraintVertical_bias="0.725" />
 </androidx.constraintlayout.widget.ConstraintLayout>
