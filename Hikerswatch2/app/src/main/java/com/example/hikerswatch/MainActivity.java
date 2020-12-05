@@ -44,71 +44,40 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateLocationInfo(Location location) {
         Log.i("LocationInfo", location.toString());
-        /*TextView latTextView = (TextView) findViewById(R.id.latTextView);
-        TextView lonTextView = (TextView) findViewById(R.id.lonTextView);
-        TextView altTextView = (TextView) findViewById(R.id.altTextView);
-        TextView accTextView = (TextView) findViewById(R.id.accTextView);
+        TextView latlngTextView = findViewById(R.id.latlngTextView);
+        TextView addressTextView = (TextView) findViewById(R.id.addressTextView);
+        TextView weatherTextView = (TextView) findViewById(R.id.weatherTextView);
 
-        latTextView.setText("Latitude: " + location.getLatitude());
-        lonTextView.setText("Longitude: " + location.getLongitude());
-        altTextView.setText("Altitude: " + location.getAltitude());
-        accTextView.setText("Accuracy: " + location.getAccuracy());
-*/
+        latlngTextView.setText("Latitude: " + location.getLatitude() + "\n" + "Longitude: " + location.getLongitude() + "\n" + "Accuracy: " + location.getAccuracy());
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
         try {
-
             String address = "Could not find address";
-
             List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
             if (listAddresses != null && listAddresses.size() > 0 ) {
-
                 Log.i("PlaceInfo", listAddresses.get(0).toString());
-
                 address = "Address: \n";
-
                 if (listAddresses.get(0).getSubThoroughfare() != null) {
-
                     address += listAddresses.get(0).getSubThoroughfare() + " ";
-
                 }
-
                 if (listAddresses.get(0).getThoroughfare() != null) {
-
                     address += listAddresses.get(0).getThoroughfare() + "\n";
-
                 }
-
                 if (listAddresses.get(0).getLocality() != null) {
-
                     address += listAddresses.get(0).getLocality() + "\n";
-
                 }
-
                 if (listAddresses.get(0).getPostalCode() != null) {
-
                     address += listAddresses.get(0).getPostalCode() + "\n";
-
                 }
-
                 if (listAddresses.get(0).getCountryName() != null) {
-
                     address += listAddresses.get(0).getCountryName() + "\n";
-
                 }
-
             }
-
-  //          TextView addressTextView = (TextView) findViewById(R.id.addressTextView);
-
-    //        addressTextView.setText(address);
-
-
+                addressTextView.setText(address);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
