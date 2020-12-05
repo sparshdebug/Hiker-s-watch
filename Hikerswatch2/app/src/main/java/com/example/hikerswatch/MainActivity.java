@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -13,12 +14,24 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     LocationListener locationListener;
+    TextView latlngTextView = findViewById(R.id.latlngTextView);
+    TextView addressTextView = (TextView) findViewById(R.id.addressTextView);
+    TextView weatherTextView = (TextView) findViewById(R.id.weatherTextView);
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -42,11 +58,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void updateLocationInfo(Location location) {
         Log.i("LocationInfo", location.toString());
-        TextView latlngTextView = findViewById(R.id.latlngTextView);
-        TextView addressTextView = (TextView) findViewById(R.id.addressTextView);
-        TextView weatherTextView = (TextView) findViewById(R.id.weatherTextView);
+
 
         latlngTextView.setText("Latitude: " + location.getLatitude() + "\n" + "Longitude: " + location.getLongitude() + "\n" + "Accuracy: " + location.getAccuracy());
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
@@ -58,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             if (listAddresses != null && listAddresses.size() > 0 ) {
                 Log.i("PlaceInfo", listAddresses.get(0).toString());
                 address = "Address: \n";
-                if(listAddresses.get(0).getAddressLine(0) != null && listAddresses.get(0).getAddressLine(0).isEmpty() == false){
+                if(listAddresses.get(0).getAddressLine(0) != null && !listAddresses.get(0).getAddressLine(0).isEmpty()){
                     address += listAddresses.get(0).getAddressLine(0);
                 }
             }
@@ -89,5 +104,80 @@ public class MainActivity extends AppCompatActivity {
                     updateLocationInfo(location);
                 }
             }
+    }
+
+    public void getWeather(View view) {
+        try {
+            DownloadTask task = new DownloadTask();
+            String encodedCityName = URLEncoder.encode(editText.getText().toString(), "UTF-8");
+
+            task.execute("http://openweathermap.org/data/2.5/weather?q=" + encodedCityName + "&appid=b1b15e88fa797225412429c1c50c122a1");
+
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public class DownloadTask extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String result = "";
+            URL url;
+            HttpURLConnection urlConnection = null;
+
+            try {
+                url = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+                int data = reader.read();
+
+                while (data != -1) {
+                    char current = (char) data;
+                    result += current;
+                    data = reader.read();
+                }
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Could not find weather :(", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                String weatherInfo = jsonObject.getString("weather");
+                Log.i("Weather content", weatherInfo);
+                JSONArray arr = new JSONArray(weatherInfo);
+                String message = "";
+
+                for (int i=0; i < arr.length(); i++) {
+                    JSONObject jsonPart = arr.getJSONObject(i);
+                    String main = jsonPart.getString("main");
+                    String description = jsonPart.getString("description");
+                    if (!main.equals("") && !description.equals("")) {
+                        message += main + ": " + description + "\r\n";
+                    }
+                }
+
+                if (!message.equals("")) {
+                    weatherTextView.setText(message);
+                } else {
+                    Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),"Could not find weather :(",Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
     }
 }
