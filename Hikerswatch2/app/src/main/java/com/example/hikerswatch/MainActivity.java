@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
                 String message = "";
                 message = "Weather: \nTemp: " + String.format("%.2f", temp.getDouble("temp") - 273.15) + "°C\n";
                 message += "feels like:  " + String.format("%.2f", temp.getDouble("feels_like") - 273.15) + "°C\n";
-                message += "Max temp:  " + String.format("%.2f", temp.getDouble("temp_min") - 273.15) + "°C\n";
-                message += "Min temp:  " + String.format("%.2f", temp.getDouble("temp_max") - 273.15) + "°C\n";
+                message += "Max temp:  " + String.format("%.2f", temp.getDouble("temp_max") - 273.15) + "°C\n";
+                message += "Min temp:  " + String.format("%.2f", temp.getDouble("temp_min") - 273.15) + "°C\n";
                 message += "Pressure: " + temp.getDouble("pressure") + " Pa\n";
                 message += "Humidity: " +  String.format("%.2f", temp.getDouble("humidity") - 273.15) + "°C\n";
 
